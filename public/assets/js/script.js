@@ -57,11 +57,20 @@ function setupEventHandlers() {
   $(document).on("submit", ".create-form", function(event) {
     event.preventDefault();
 
-    var burgerName = $(this).children(".form-control").val();
+    var burgerName = $("#burger_name").val().trim();
+    var customerName = $("#customer_name").val().trim();
     console.log(burgerName);
+    console.log(customerName);
     $.ajax("/api/burgers/", {
       type: "POST",
       data: { burger_name: burgerName }
+    }).then(function(data) {
+      // Rerender the page with the updated list
+      displayPage();
+    });
+    $.ajax("/api/customers/", {
+      type: "POST",
+      data: { customer_name: customerName }
     }).then(function(data) {
       // Rerender the page with the updated list
       displayPage();
